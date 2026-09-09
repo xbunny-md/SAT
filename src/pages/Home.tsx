@@ -1,13 +1,13 @@
-import { PlayCircle, TrendingUp, ShieldCheck, Flame, ChevronRight, BarChart2 } from "lucide-react";
+import { ChevronRight, Search, PlayCircle, Flame, Tv } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useBetSlipStore, BetSelection } from "../store/betSlipStore";
+import { useBetSlipStore } from "../store/betSlipStore";
 import { useMatchesStore } from "../store/matchesStore";
 import { useEffect } from "react";
 import clsx from "clsx";
 
 export default function Home() {
   const { addSelection, selections } = useBetSlipStore();
-  const { matches, startPolling, stopPolling, loading } = useMatchesStore();
+  const { matches, startPolling, stopPolling } = useMatchesStore();
 
   useEffect(() => {
     startPolling();
@@ -30,193 +30,171 @@ export default function Home() {
   };
 
   const liveMatches = matches.filter(m => m.status === 'live' || m.status === 'half-time');
-  const upcomingMatches = matches.filter(m => m.status === 'upcoming');
 
   return (
-    <div className="p-4 lg:p-6 space-y-8 animate-in fade-in duration-500">
-      {/* Hero / Promotions Banner */}
-      <section className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 border border-blue-800/50 shadow-2xl">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-        <div className="absolute top-0 right-0 p-8 w-1/2 h-full hidden md:block">
-          <div className="w-full h-full bg-gradient-to-l from-transparent to-indigo-900/0 flex items-center justify-end">
-            <ShieldCheck size={120} className="text-blue-500/20 rotate-12" />
-          </div>
-        </div>
-        
-        <div className="relative z-10 p-6 md:p-10 max-w-2xl">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase tracking-wider mb-4">
-            <Flame size={14} /> New Season Offer
-          </div>
-          <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 tracking-tight">
-            100% Welcome Bonus <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Up to $500</span>
-          </h1>
-          <p className="text-blue-100/80 mb-8 max-w-md text-sm md:text-base">
-            Join SOMADIAN BET today and double your first deposit. Experience the ultimate AI-driven sportsbook.
-          </p>
-          <div className="flex gap-4">
-            <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg shadow-blue-600/30 transition-all active:scale-95">
-              Claim Bonus
-            </button>
-            <button className="bg-gray-800/50 hover:bg-gray-800 text-white border border-gray-700 font-bold py-3 px-6 rounded-lg transition-all active:scale-95 flex items-center gap-2 backdrop-blur-sm">
-              <PlayCircle size={18} /> How to play
-            </button>
-          </div>
-        </div>
-      </section>
+    <div className="animate-in fade-in duration-500">
+      
+      {/* Sub-navigation */}
+      <div className="flex items-center gap-4 px-4 py-3 overflow-x-auto scrollbar-hide bg-[#F0F2F5] sticky top-16 z-30">
+        <button className="px-5 py-1.5 bg-white text-gray-900 rounded-full font-semibold shadow-sm text-sm whitespace-nowrap">
+          Top
+        </button>
+        <button className="px-3 py-1.5 text-gray-600 hover:text-gray-900 font-medium text-sm whitespace-nowrap">
+          Live
+        </button>
+        <button className="px-3 py-1.5 text-gray-600 hover:text-gray-900 font-medium text-sm whitespace-nowrap">
+          Upcoming
+        </button>
+        <button className="px-3 py-1.5 text-gray-600 hover:text-gray-900 font-medium text-sm whitespace-nowrap flex items-center gap-1.5">
+          <span className="bg-[#ff4e00] text-white text-[10px] font-bold px-1.5 py-0.5 rounded">NEW</span>
+          TOP Bets
+        </button>
+        <button className="px-3 py-1.5 text-gray-600 hover:text-gray-900 font-medium text-sm whitespace-nowrap">
+          Esports
+        </button>
+        <button className="ml-auto p-1 text-gray-900">
+          <Search size={22} />
+        </button>
+      </div>
 
-      {/* Live Matches Widget */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <div className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-            </div>
-            Live Football
-          </h2>
-          <Link to="/live" className="text-sm font-medium text-blue-400 hover:text-blue-300 flex items-center gap-1 group">
-            View All <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+      <div className="px-4 space-y-6 pb-6">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {liveMatches.map((match) => (
-            <div key={match.id} className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden hover:border-gray-700 transition-colors group shadow-sm">
-              <div className="p-3 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
-                <div className="flex items-center gap-2 text-xs font-medium text-gray-400">
-                  <span className="text-red-500 font-bold">{match.current_minute}'</span>
-                  <span>{match.league}</span>
-                </div>
-                <button className="flex items-center gap-1 text-xs text-gray-500 hover:text-white transition-colors cursor-pointer z-10 relative">
-                  <BarChart2 size={14} /> Stats
-                </button>
-              </div>
-              <div className="p-4 relative">
-                <Link to={`/match/${match.id}`} className="absolute inset-0 z-0"></Link>
-                <div className="space-y-3 relative z-10 pointer-events-none">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-500">{match.home_short?.[0]}</div>
-                      <span className="font-bold text-gray-100">{match.home}</span>
-                    </div>
-                    <span className="font-bold text-lg text-white">{match.home_score}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-500">{match.away_short?.[0]}</div>
-                      <span className="font-bold text-gray-100">{match.away}</span>
-                    </div>
-                    <span className="font-bold text-lg text-white">{match.away_score}</span>
-                  </div>
-                </div>
-                
-                <div className="mt-5 grid grid-cols-3 gap-2 relative z-10">
-                  <button 
-                    onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "1", match.odds?.["Match Winner"]?.["1"] || 1.1)}
-                    className={clsx(
-                      "p-2 rounded-lg text-center flex flex-col items-center justify-center transition-all",
-                      isSelected(match.id, "Match Winner", "1") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-blue-400 border border-transparent"
-                    )}
-                  >
-                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "1") ? "text-blue-200" : "text-gray-500")}>1</span>
-                    <span className={clsx("font-bold text-sm", isSelected(match.id, "Match Winner", "1") ? "text-white" : "text-blue-400")}>{(match.odds?.["Match Winner"]?.["1"] || 1.1).toFixed(2)}</span>
-                  </button>
-                  <button 
-                    onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "X", match.odds?.["Match Winner"]?.["X"] || 1.1)}
-                    className={clsx(
-                      "p-2 rounded-lg text-center flex flex-col items-center justify-center transition-all",
-                      isSelected(match.id, "Match Winner", "X") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-blue-400 border border-transparent"
-                    )}
-                  >
-                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "X") ? "text-blue-200" : "text-gray-500")}>X</span>
-                    <span className={clsx("font-bold text-sm", isSelected(match.id, "Match Winner", "X") ? "text-white" : "text-blue-400")}>{(match.odds?.["Match Winner"]?.["X"] || 1.1).toFixed(2)}</span>
-                  </button>
-                  <button 
-                    onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "2", match.odds?.["Match Winner"]?.["2"] || 1.1)}
-                    className={clsx(
-                      "p-2 rounded-lg text-center flex flex-col items-center justify-center transition-all",
-                      isSelected(match.id, "Match Winner", "2") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-blue-400 border border-transparent"
-                    )}
-                  >
-                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "2") ? "text-blue-200" : "text-gray-500")}>2</span>
-                    <span className={clsx("font-bold text-sm", isSelected(match.id, "Match Winner", "2") ? "text-white" : "text-blue-400")}>{(match.odds?.["Match Winner"]?.["2"] || 1.1).toFixed(2)}</span>
-                  </button>
+        {/* Hero Banner */}
+        <section className="relative rounded-[24px] overflow-hidden bg-gradient-to-r from-[#202735] to-[#404c5e] shadow-md mt-2">
+          {/* We use a placeholder image for Luis Suarez, or a generic soccer player */}
+          <div className="absolute inset-0 bg-cover bg-right" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop')", opacity: 0.4, mixBlendMode: 'overlay' }}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#202735] via-[#202735]/80 to-transparent"></div>
+          
+          <div className="relative z-10 p-6 max-w-sm">
+            <h1 className="text-[22px] font-bold text-white leading-tight mb-1">
+              Bonus from Somadian
+            </h1>
+            <p className="text-gray-200 text-sm mb-6 max-w-[200px] leading-tight">
+              Wager-free FB for a multiple bet
+            </p>
+            <button className="bg-white text-gray-900 font-bold py-2.5 px-5 rounded-xl text-sm shadow-sm transition-transform active:scale-95">
+              More details
+            </button>
+          </div>
+        </section>
+
+        {/* Quick Links Circles */}
+        <section className="flex items-start gap-4 overflow-x-auto scrollbar-hide py-1">
+          {[
+            { name: "TOP Bets", icon: "⚽", bg: "bg-gradient-to-b from-blue-400 to-blue-600", border: "border-blue-500" },
+            { name: "Barca vs Feyenoord", icon: "⚔️", bg: "bg-gradient-to-b from-red-500 to-red-700", border: "border-red-500" },
+            { name: "Liverpool Atletico", icon: "🔴", bg: "bg-gradient-to-b from-gray-700 to-gray-900", border: "border-gray-500" },
+            { name: "Champions League", icon: "🏆", bg: "bg-gradient-to-b from-blue-800 to-blue-900", border: "border-blue-800" },
+            { name: "Champions League CAF", icon: "🌍", bg: "bg-gradient-to-b from-yellow-500 to-yellow-600", border: "border-yellow-500" },
+          ].map((item, i) => (
+            <div key={i} className="flex flex-col items-center gap-1.5 min-w-[72px] cursor-pointer">
+              <div className={clsx("w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-sm border-[3px] bg-white p-0.5", item.border)}>
+                <div className={clsx("w-full h-full rounded-full flex items-center justify-center text-white", item.bg)}>
+                  {item.icon}
                 </div>
               </div>
+              <span className="text-xs font-medium text-gray-800 text-center leading-tight w-[72px]">{item.name}</span>
             </div>
           ))}
-        </div>
-      </section>
+        </section>
 
-      {/* Popular Upcoming */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <TrendingUp size={20} className="text-blue-500" />
-            Trending Matches
-          </h2>
-        </div>
-        
-        <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-sm">
-          {/* List Header */}
-          <div className="grid grid-cols-12 gap-4 p-3 border-b border-gray-800 bg-gray-800/40 text-xs font-semibold text-gray-400 uppercase tracking-wider hidden md:grid">
-            <div className="col-span-5">Match</div>
-            <div className="col-span-7 flex justify-end gap-2 grid grid-cols-3 gap-4 text-center">
-              <div className="w-full text-center">1</div>
-              <div className="w-full text-center">X</div>
-              <div className="w-full text-center">2</div>
-            </div>
+        {/* Top Live Section */}
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-[20px] font-bold text-gray-900 flex items-center gap-2">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#ff0044] text-white">
+                <Activity size={14} />
+              </span>
+              Top Live
+            </h2>
+            <Link to="/live" className="bg-[#007AFF] hover:bg-blue-600 text-white font-semibold text-sm px-4 py-1.5 rounded-lg transition-colors">
+              View all
+            </Link>
           </div>
           
-          {/* List Items */}
-          <div className="divide-y divide-gray-800">
-            {upcomingMatches.map((match) => (
-              <div key={match.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 items-center hover:bg-gray-800/30 transition-colors relative group">
-                <Link to={`/match/${match.id}`} className="absolute inset-0 z-0"></Link>
-                <div className="col-span-1 md:col-span-5 relative z-10 pointer-events-none">
-                  <div className="text-xs text-gray-500 mb-1.5 flex items-center gap-2">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                    {new Date(match.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • {match.league}
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {liveMatches.map((match) => (
+              <div key={match.id} className="min-w-[300px] max-w-[320px] bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden shrink-0">
+                {/* Card Header */}
+                <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+                   <div className="w-5 h-5 rounded-full bg-[#ff4e00] flex items-center justify-center text-white shrink-0">
+                     <Flame size={12} />
+                   </div>
+                   <div className="flex items-center gap-1 text-xs font-semibold text-gray-800 truncate">
+                      <span className="w-4 h-4 bg-gray-200 rounded-full flex items-center justify-center text-[8px]">🌍</span>
+                      <span className="truncate">Europe. {match.league}</span>
+                   </div>
+                </div>
+
+                {/* Match Status & Teams */}
+                <div className="p-4 pb-2">
+                  <div className="flex items-center gap-2 mb-3">
+                     <div className="flex items-center gap-1 text-[#ff0044] text-xs font-bold bg-[#ff0044]/10 px-2 py-0.5 rounded-full">
+                       <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff0044] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff0044]"></span>
+                       </span>
+                       {match.current_minute}'
+                     </div>
+                     <div className="bg-gray-100 p-1 rounded">
+                       <Tv size={12} className="text-gray-500" />
+                     </div>
                   </div>
-                  <div className="font-bold text-gray-200 group-hover:text-white transition-colors text-sm">{match.home}</div>
-                  <div className="font-bold text-gray-200 group-hover:text-white transition-colors text-sm mt-0.5">{match.away}</div>
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center text-[10px] font-bold text-blue-800">{match.home_short[0]}</div>
+                        <span className="font-bold text-gray-900 text-sm">{match.home}</span>
+                      </div>
+                      <span className="font-bold text-gray-900 bg-gray-100 w-6 h-6 flex items-center justify-center rounded">{match.home_score}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center text-[10px] font-bold text-red-800">{match.away_short[0]}</div>
+                        <span className="font-bold text-gray-900 text-sm">{match.away}</span>
+                      </div>
+                      <span className="font-bold text-gray-900 bg-gray-100 w-6 h-6 flex items-center justify-center rounded">{match.away_score}</span>
+                    </div>
+                  </div>
                 </div>
                 
-                <div className="col-span-1 md:col-span-7 flex gap-2 md:grid md:grid-cols-3 md:gap-4 relative z-10">
-                  <button 
-                    onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "1", match.odds?.["Match Winner"]?.["1"] || 1.1)}
-                    className={clsx(
-                      "flex-1 md:w-full py-2 rounded-lg text-center font-bold text-sm transition-all border",
-                      isSelected(match.id, "Match Winner", "1") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-gray-300 border-transparent hover:border-gray-600"
-                    )}
-                  >
-                    {(match.odds?.["Match Winner"]?.["1"] || 1.1).toFixed(2)}
-                  </button>
-                  <button 
-                    onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "X", match.odds?.["Match Winner"]?.["X"] || 1.1)}
-                    className={clsx(
-                      "flex-1 md:w-full py-2 rounded-lg text-center font-bold text-sm transition-all border",
-                      isSelected(match.id, "Match Winner", "X") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-gray-300 border-transparent hover:border-gray-600"
-                    )}
-                  >
-                    {(match.odds?.["Match Winner"]?.["X"] || 1.1).toFixed(2)}
-                  </button>
-                  <button 
-                    onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "2", match.odds?.["Match Winner"]?.["2"] || 1.1)}
-                    className={clsx(
-                      "flex-1 md:w-full py-2 rounded-lg text-center font-bold text-sm transition-all border",
-                      isSelected(match.id, "Match Winner", "2") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-gray-300 border-transparent hover:border-gray-600"
-                    )}
-                  >
-                    {(match.odds?.["Match Winner"]?.["2"] || 1.1).toFixed(2)}
-                  </button>
+                {/* Odds */}
+                <div className="px-4 py-3 mt-auto">
+                   <div className="text-xs text-gray-500 mb-1.5">Match Winner</div>
+                   <div className="flex items-center gap-2">
+                      {['1', 'X', '2'].map(outcome => {
+                        const odds = match.odds?.["Match Winner"]?.[outcome] || 1.1;
+                        const isSel = isSelected(match.id, "Match Winner", outcome);
+                        return (
+                          <button 
+                            key={outcome}
+                            onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", outcome, odds)}
+                            className={clsx(
+                              "flex-1 flex justify-between items-center px-3 py-2 rounded-xl text-sm font-semibold transition-colors",
+                              isSel ? "bg-[#007AFF] text-white" : "bg-[#F0F2F5] text-gray-900 hover:bg-gray-200"
+                            )}
+                          >
+                             <span>{outcome}</span>
+                             <span>{odds.toFixed(2)}</span>
+                          </button>
+                        )
+                      })}
+                   </div>
                 </div>
               </div>
             ))}
+            
+            {/* If there are no live matches, show upcoming as fallback */}
+            {liveMatches.length === 0 && (
+               <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-gray-500 w-full border border-gray-100">
+                  No live matches right now. Check back later!
+               </div>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+
+      </div>
     </div>
   );
 }

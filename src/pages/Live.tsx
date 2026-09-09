@@ -31,30 +31,30 @@ export function Live() {
           <div className="w-3 h-3 bg-red-500 rounded-full animate-ping absolute"></div>
           <div className="w-3 h-3 bg-red-500 rounded-full relative"></div>
         </div>
-        <h1 className="text-3xl font-black text-white tracking-tight">Live Matches</h1>
-        <span className="bg-gray-800 text-gray-400 font-bold px-3 py-1 rounded-lg ml-2">{liveMatches.length}</span>
+        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Live Matches</h1>
+        <span className="bg-gray-200 text-gray-600 font-bold px-3 py-1 rounded-lg ml-2">{liveMatches.length}</span>
       </div>
 
       {liveMatches.length === 0 && !loading ? (
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-12 text-center flex flex-col items-center justify-center">
-          <div className="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center mb-4 text-gray-600">
+        <div className="bg-white border border-gray-100 rounded-2xl p-12 text-center flex flex-col items-center justify-center shadow-sm">
+          <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 text-gray-400">
             <Activity size={32} />
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">No Live Matches</h2>
-          <p className="text-gray-400 max-w-sm">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">No Live Matches</h2>
+          <p className="text-gray-500 max-w-sm">
             There are currently no live football matches. Check the upcoming matches section to see what's starting soon.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {liveMatches.map((match) => (
-            <div key={match.id} className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden hover:border-gray-700 transition-colors group shadow-sm">
-              <div className="p-3 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
-                <div className="flex items-center gap-2 text-xs font-medium text-gray-400">
+            <div key={match.id} className="bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-gray-200 transition-colors group shadow-sm">
+              <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
                   <span className="text-red-500 font-bold">{match.current_minute}'</span>
                   <span>{match.league}</span>
                 </div>
-                <button className="flex items-center gap-1 text-xs text-gray-500 hover:text-white transition-colors cursor-pointer z-10 relative">
+                <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors cursor-pointer z-10 relative">
                   <BarChart2 size={14} /> Stats
                 </button>
               </div>
@@ -63,17 +63,17 @@ export function Live() {
                 <div className="space-y-3 relative z-10 pointer-events-none">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-500">{match.home_short?.[0]}</div>
-                      <span className="font-bold text-gray-100">{match.home}</span>
+                      <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-xs font-bold text-blue-600">{match.home_short?.[0]}</div>
+                      <span className="font-bold text-gray-900">{match.home}</span>
                     </div>
-                    <span className="font-bold text-lg text-white">{match.home_score}</span>
+                    <span className="font-bold text-lg text-gray-900 bg-gray-100 w-8 h-8 flex items-center justify-center rounded">{match.home_score}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-500">{match.away_short?.[0]}</div>
-                      <span className="font-bold text-gray-100">{match.away}</span>
+                      <div className="w-6 h-6 rounded-full bg-red-50 flex items-center justify-center text-xs font-bold text-red-600">{match.away_short?.[0]}</div>
+                      <span className="font-bold text-gray-900">{match.away}</span>
                     </div>
-                    <span className="font-bold text-lg text-white">{match.away_score}</span>
+                    <span className="font-bold text-lg text-gray-900 bg-gray-100 w-8 h-8 flex items-center justify-center rounded">{match.away_score}</span>
                   </div>
                 </div>
                 
@@ -82,31 +82,31 @@ export function Live() {
                     onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "1", match.odds?.["Match Winner"]?.["1"] || 1.1)}
                     className={clsx(
                       "p-2 rounded-lg text-center flex flex-col items-center justify-center transition-all",
-                      isSelected(match.id, "Match Winner", "1") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-blue-400 border border-transparent"
+                      isSelected(match.id, "Match Winner", "1") ? "bg-[#007AFF] text-white" : "bg-[#F0F2F5] hover:bg-gray-200 text-gray-900"
                     )}
                   >
-                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "1") ? "text-blue-200" : "text-gray-500")}>1</span>
-                    <span className={clsx("font-bold text-sm", isSelected(match.id, "Match Winner", "1") ? "text-white" : "text-blue-400")}>{(match.odds?.["Match Winner"]?.["1"] || 1.1).toFixed(2)}</span>
+                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "1") ? "text-blue-100" : "text-gray-500")}>1</span>
+                    <span className="font-bold text-sm">{(match.odds?.["Match Winner"]?.["1"] || 1.1).toFixed(2)}</span>
                   </button>
                   <button 
                     onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "X", match.odds?.["Match Winner"]?.["X"] || 1.1)}
                     className={clsx(
                       "p-2 rounded-lg text-center flex flex-col items-center justify-center transition-all",
-                      isSelected(match.id, "Match Winner", "X") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-blue-400 border border-transparent"
+                      isSelected(match.id, "Match Winner", "X") ? "bg-[#007AFF] text-white" : "bg-[#F0F2F5] hover:bg-gray-200 text-gray-900"
                     )}
                   >
-                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "X") ? "text-blue-200" : "text-gray-500")}>X</span>
-                    <span className={clsx("font-bold text-sm", isSelected(match.id, "Match Winner", "X") ? "text-white" : "text-blue-400")}>{(match.odds?.["Match Winner"]?.["X"] || 1.1).toFixed(2)}</span>
+                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "X") ? "text-blue-100" : "text-gray-500")}>X</span>
+                    <span className="font-bold text-sm">{(match.odds?.["Match Winner"]?.["X"] || 1.1).toFixed(2)}</span>
                   </button>
                   <button 
                     onClick={() => handleAddBet(match.id, `${match.home} vs ${match.away}`, "Match Winner", "2", match.odds?.["Match Winner"]?.["2"] || 1.1)}
                     className={clsx(
                       "p-2 rounded-lg text-center flex flex-col items-center justify-center transition-all",
-                      isSelected(match.id, "Match Winner", "2") ? "bg-blue-600 border-blue-500 text-white" : "bg-gray-800 hover:bg-gray-700 text-blue-400 border border-transparent"
+                      isSelected(match.id, "Match Winner", "2") ? "bg-[#007AFF] text-white" : "bg-[#F0F2F5] hover:bg-gray-200 text-gray-900"
                     )}
                   >
-                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "2") ? "text-blue-200" : "text-gray-500")}>2</span>
-                    <span className={clsx("font-bold text-sm", isSelected(match.id, "Match Winner", "2") ? "text-white" : "text-blue-400")}>{(match.odds?.["Match Winner"]?.["2"] || 1.1).toFixed(2)}</span>
+                    <span className={clsx("text-[10px] uppercase font-semibold mb-0.5", isSelected(match.id, "Match Winner", "2") ? "text-blue-100" : "text-gray-500")}>2</span>
+                    <span className="font-bold text-sm">{(match.odds?.["Match Winner"]?.["2"] || 1.1).toFixed(2)}</span>
                   </button>
                 </div>
               </div>
