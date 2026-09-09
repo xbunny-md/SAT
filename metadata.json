@@ -1,0 +1,6 @@
+{
+  "name": "SOMADIAN NUNEZ BET",
+  "description": "A production-grade, AI-driven football simulation sportsbook.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
